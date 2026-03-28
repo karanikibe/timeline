@@ -46,8 +46,7 @@ src/
     about/index.astro
 public/
   assets/
-    kaka.jpeg
-    KakaRutoResume.pdf
+    avatar.jpg
 ```
 
 ## Editing Content
@@ -77,3 +76,12 @@ npx wrangler pages deploy dist --project-name=kakaruto-timeline
 
 ## License
 [MIT](./LICENSE)
+
+## GitHub Actions Deployment
+A workflow is included at `.github/workflows/deploy-cloudflare-pages.yml`.
+
+Add these repository secrets in GitHub:
+- `CLOUDFLARE_API_TOKEN` (Pages Write permission)
+- `CLOUDFLARE_ACCOUNT_ID`
+
+Then every push to `master` will build and deploy to Cloudflare Pages.

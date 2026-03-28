@@ -1,0 +1,11 @@
+---
+import FeedPane from "../../components/FeedPane.astro";
+import AppShell from "../../layouts/AppShell.astro";
+import { feedItems } from "../../data/site";
+
+const writing = feedItems.filter((item) => item.kind === "writing");
+---
+
+<AppShell activePath="/writing" pageTitle="Writing | Kaka Ruto" pageDescription="Writing and product engineering notes by Kaka Ruto.">
+  <FeedPane title="Writing" subtitle="Thoughts, notes, and engineering lessons" items={writing} />
+</AppShell>

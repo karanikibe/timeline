@@ -1,0 +1,43 @@
+---
+import "../styles/global.css";
+import LeftPane from "../components/LeftPane.astro";
+import RightPane from "../components/RightPane.astro";
+import { navItems } from "../data/site";
+
+const { activePath, pageTitle, pageDescription } = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={pageDescription} />
+    <title>{pageTitle}</title>
+  </head>
+  <body class="bg-black text-zinc-50 antialiased">
+    <div class="mx-auto grid min-h-screen max-w-7xl lg:grid-cols-[260px_minmax(0,1fr)] xl:grid-cols-[260px_minmax(0,1fr)_340px]">
+      <LeftPane activePath={activePath} />
+      <main>
+        <slot />
+      </main>
+      <RightPane />
+    </div>
+    <nav class="fixed inset-x-0 bottom-0 border-t border-zinc-800 bg-black/95 px-2 py-2 backdrop-blur lg:hidden">
+      <ul class="grid grid-cols-4 gap-2">
+        {navItems.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              class:list={[
+                "block rounded-full px-3 py-2 text-center text-xs font-medium",
+                activePath === item.href ? "bg-zinc-100 text-black" : "text-zinc-300"
+              ]}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </body>
+</html>

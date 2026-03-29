@@ -57,6 +57,19 @@ Update data in `src/data/site.ts`:
 - now status
 - GitHub username/events config
 
+## Contact Form (Cloudflare Email Routing)
+Contact form page: `/contact`  
+Server endpoint: `functions/api/contact.ts`
+
+Set these environment variables in Cloudflare Pages project settings:
+- `CONTACT_FORWARD_TO`: your Cloudflare Email Routing alias (for example `contact@kakaruto.com`)
+- `CONTACT_FROM` (optional): sender address for outgoing form notifications (default: `noreply@kakaruto.com`)
+
+Recommended Cloudflare setup:
+1. In Email Routing, create alias `contact@kakaruto.com` forwarding to your private inbox.
+2. In Pages, add `CONTACT_FORWARD_TO=contact@kakaruto.com`.
+3. Deploy.
+
 ## Cloudflare Pages Deployment
 1. Install Wrangler and login:
 ```bash

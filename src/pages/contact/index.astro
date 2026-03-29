@@ -1,0 +1,63 @@
+---
+import AppShell from "../../layouts/AppShell.astro";
+---
+
+<AppShell activePath="/contact" pageTitle="Contact | Kaka Ruto" pageDescription="Contact Kaka Ruto without exposing direct email publicly.">
+  <section class="min-h-screen border-x border-zinc-800 bg-black/95 px-5 py-8 pb-20 lg:pb-8">
+    <h2 class="text-2xl font-bold text-zinc-50">Contact</h2>
+    <p class="mt-3 max-w-2xl text-sm text-zinc-300">
+      Send a message and it will be forwarded through Cloudflare Email Routing. Your message goes through a server endpoint, so no email is listed in the page source.
+    </p>
+
+    <form id="contact-form" class="mt-6 max-w-2xl space-y-4 rounded-2xl border border-zinc-800 bg-zinc-950 p-5">
+      <div>
+        <label for="name" class="mb-1 block text-sm text-zinc-300">Name</label>
+        <input id="name" name="name" required maxlength="80" class="w-full rounded-xl border border-zinc-700 bg-zinc-900 px-3 py-2 text-zinc-100 outline-none focus:border-sky-500" />
+      </div>
+
+      <div>
+        <label for="email" class="mb-1 block text-sm text-zinc-300">Email</label>
+        <input id="email" name="email" type="email" required maxlength="120" class="w-full rounded-xl border border-zinc-700 bg-zinc-900 px-3 py-2 text-zinc-100 outline-none focus:border-sky-500" />
+      </div>
+
+      <div>
+        <label for="message" class="mb-1 block text-sm text-zinc-300">Message</label>
+        <textarea id="message" name="message" required minlength="10" maxlength="3000" rows="7" class="w-full rounded-xl border border-zinc-700 bg-zinc-900 px-3 py-2 text-zinc-100 outline-none focus:border-sky-500"></textarea>
+      </div>
+
+      <input name="company" tabindex="-1" autocomplete="off" class="hidden" />
+
+      <button type="submit" class="rounded-full bg-sky-500 px-5 py-2 text-sm font-semibold text-white hover:bg-sky-400">
+        Send message
+      </button>
+      <p id="contact-status" class="text-sm text-zinc-400"></p>
+    </form>
+
+    <script is:inline>
+      const form = document.getElementById("contact-form");
+      const status = document.getElementById("contact-status");
+
+      form?.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        status.textContent = "Sending...";
+
+        const data = Object.fromEntries(new FormData(form).entries());
+
+        try {
+          const response = await fetch("/api/contact", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+          });
+
+          if (!response.ok) throw new Error("Request failed");
+
+          form.reset();
+          status.textContent = "Message sent. I will get back to you soon.";
+        } catch {
+          status.textContent = "Could not send right now. Please try again shortly.";
+        }
+      });
+    </script>
+  </section>
+</AppShell>

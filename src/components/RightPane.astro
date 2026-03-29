@@ -24,39 +24,51 @@ import { githubConfig, nowStatus, profile } from "../data/site";
 
   <script is:inline define:vars={{ username: githubConfig.username, limit: githubConfig.eventsLimit }}>
     const list = document.getElementById("github-events");
+    const endpoint = `/api/github-activity?username=${encodeURIComponent(username)}&limit=${limit}`;
 
     const toLabel = (event) => {
       if (event.type === "PushEvent") {
-        return `Pushed ${event.payload?.commits?.length ?? 0} commit(s) to ${event.repo?.name}`;
+        return `Pushed ${event.commitCount ?? 0} commit(s) to ${event.repo}`;
       }
       if (event.type === "PullRequestEvent") {
-        return `Updated a pull request in ${event.repo?.name}`;
+        return `Updated a pull request in ${event.repo}`;
       }
       if (event.type === "IssuesEvent") {
-        return `Updated an issue in ${event.repo?.name}`;
+        return `Updated an issue in ${event.repo}`;
       }
 
-      return `${event.type.replace("Event", "")} on ${event.repo?.name}`;
+      return `${event.type.replace("Event", "")} on ${event.repo}`;
     };
 
     const toDate = (value) =>
       new Intl.DateTimeFormat("en", { month: "short", day: "numeric" }).format(new Date(value));
 
-    fetch(`https://api.github.com/users/${username}/events/public?per_page=${limit}`)
+    const renderEvent = (event) => {
+      const item = document.createElement("li");
+      item.className = "rounded-xl border border-zinc-800 p-2";
+
+      const title = document.createElement("p");
+      title.textContent = toLabel(event);
+
+      const date = document.createElement("p");
+      date.className = "mt-1 text-xs text-zinc-500";
+      date.textContent = toDate(event.createdAt);
+
+      item.append(title, date);
+      return item;
+    };
+
+    fetch(endpoint)
       .then((response) => response.ok ? response.json() : Promise.reject())
-      .then((events) => {
+      .then((payload) => {
+        const events = payload?.events ?? [];
+
         if (!Array.isArray(events) || events.length === 0) {
           list.innerHTML = '<li class="text-zinc-500">No recent public activity found.</li>';
           return;
         }
 
-        list.innerHTML = events
-          .slice(0, limit)
-          .map(
-            (event) =>
-              `<li class="rounded-xl border border-zinc-800 p-2"><p>${toLabel(event)}</p><p class="mt-1 text-xs text-zinc-500">${toDate(event.created_at)}</p></li>`
-          )
-          .join("");
+        list.replaceChildren(...events.slice(0, limit).map(renderEvent));
       })
       .catch(() => {
         list.innerHTML = '<li class="text-zinc-500">Unable to fetch GitHub activity right now.</li>';

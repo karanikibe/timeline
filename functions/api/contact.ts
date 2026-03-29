@@ -41,7 +41,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   if (!message || message.length < 10 || message.length > 3000) return json({ error: "Invalid message." }, 400);
   if (!env.CONTACT_FORWARD_TO) return json({ error: "Contact routing is not configured." }, 500);
 
-  const from = env.CONTACT_FROM || "noreply@kakaruto.com";
+  const from = env.CONTACT_FROM || "contact.form@kakaruto.com";
 
   const mailChannelsResponse = await fetch("https://api.mailchannels.net/tx/v1/send", {
     method: "POST",

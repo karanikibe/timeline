@@ -63,7 +63,7 @@ Server endpoint: `functions/api/contact.ts`
 
 Set these environment variables in Cloudflare Pages project settings:
 - `CONTACT_FORWARD_TO`: your Cloudflare Email Routing alias (for example `contact@kakaruto.com`)
-- `CONTACT_FROM` (optional): sender address for outgoing form notifications (default: `noreply@kakaruto.com`)
+- `CONTACT_FROM` (optional): sender address for outgoing form notifications (default: `contact.form@kakaruto.com`)
 
 Recommended Cloudflare setup:
 1. In Email Routing, create alias `contact@kakaruto.com` forwarding to your private inbox.

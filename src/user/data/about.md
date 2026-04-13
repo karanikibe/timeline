@@ -1,13 +1,11 @@
 ---
-intro: "I am a product engineer focused on building useful software from idea to production. I work across product discovery, backend architecture, and delivery workflows."
+intro: "I am a student currently pursuing Biomedical Engineering with a keen interest in robotics. I believe that robots can make life better and I endavour to build a better life."
 highlights:
-  - "Built and launched multiple products with real user traction."
-  - "Led teams and mentored engineers across startups and scaleups."
-  - "Shipped across Rails, GraphQL, cloud infrastructure, and AI integrations."
-  - "Background in biomedical engineering and full-stack product delivery."
+  - "Built a robotic arm using Ros2, Unity and Python to aid arm amputees get some arm functionality back"
+  - "Background in biomedical engineering hence an understanding of Human Biology"
 ---
 
 ## About
 
-I like shipping small, high-signal improvements that compound.
+I like robots. Building them especially.
 
